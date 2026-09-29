@@ -1,0 +1,79 @@
+{
+  "_RichText-BwA5_dl5.js": {
+    "file": "assets/RichText-BwA5_dl5.js",
+    "name": "RichText",
+    "imports": [
+      "resources/js/app.tsx",
+      "_arrow-up-right-DyREU-Yt.js"
+    ]
+  },
+  "_arrow-up-right-DyREU-Yt.js": {
+    "file": "assets/arrow-up-right-DyREU-Yt.js",
+    "name": "arrow-up-right",
+    "imports": [
+      "resources/js/app.tsx"
+    ]
+  },
+  "resources/css/app.css": {
+    "file": "assets/app-CJwy7Tm8.css",
+    "name": "app",
+    "names": [
+      "app.css"
+    ],
+    "src": "resources/css/app.css",
+    "isEntry": true
+  },
+  "resources/js/Pages/Admin.tsx": {
+    "file": "assets/Admin-BAKpgO-y.js",
+    "name": "Admin",
+    "src": "resources/js/Pages/Admin.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.tsx",
+      "_arrow-up-right-DyREU-Yt.js",
+      "_RichText-BwA5_dl5.js"
+    ]
+  },
+  "resources/js/Pages/Login.tsx": {
+    "file": "assets/Login-C27dgBTH.js",
+    "name": "Login",
+    "src": "resources/js/Pages/Login.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.tsx",
+      "_arrow-up-right-DyREU-Yt.js"
+    ]
+  },
+  "resources/js/Pages/NewsletterPreferences.tsx": {
+    "file": "assets/NewsletterPreferences-DN2cfg9R.js",
+    "name": "NewsletterPreferences",
+    "src": "resources/js/Pages/NewsletterPreferences.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.tsx"
+    ]
+  },
+  "resources/js/Pages/Site.tsx": {
+    "file": "assets/Site-DEsNKR37.js",
+    "name": "Site",
+    "src": "resources/js/Pages/Site.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "resources/js/app.tsx",
+      "_arrow-up-right-DyREU-Yt.js",
+      "_RichText-BwA5_dl5.js"
+    ]
+  },
+  "resources/js/app.tsx": {
+    "file": "assets/app-DCE-i1Mv.js",
+    "name": "app",
+    "src": "resources/js/app.tsx",
+    "isEntry": true,
+    "dynamicImports": [
+      "resources/js/Pages/Site.tsx",
+      "resources/js/Pages/Admin.tsx",
+      "resources/js/Pages/Login.tsx",
+      "resources/js/Pages/NewsletterPreferences.tsx"
+    ]
+  }
+}
