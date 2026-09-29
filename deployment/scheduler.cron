@@ -1,0 +1,2 @@
+# Install in the application user's crontab; adapt paths to the host.
+* * * * * cd /var/www/rich-global && /usr/bin/php artisan schedule:run >> /var/www/rich-global/storage/logs/scheduler.log 2>&1
