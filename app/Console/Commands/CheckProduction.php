@@ -28,7 +28,7 @@ class CheckProduction extends Command
             'Real sender configured' => filter_var(config('mail.from.address'), FILTER_VALIDATE_EMAIL) && ! preg_match('/@(example\.(com|test)|localhost)$/i', (string) config('mail.from.address')),
             'Production assets built' => is_file(public_path('build/manifest.json')),
             'Vite development marker absent' => ! is_file(public_path('hot')),
-            'Public storage linked' => is_link(public_path('storage')) && is_dir(public_path('storage')),
+            'Public upload directory writable (no symlink)' => ! is_link(public_path('storage')) && is_dir(public_path('storage')) && is_writable(public_path('storage')),
             'Runtime directories writable' => is_writable(storage_path()) && is_writable(base_path('bootstrap/cache')),
         ];
         if ($mailer === 'smtp') {

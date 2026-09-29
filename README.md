@@ -12,7 +12,7 @@ npm install
 cp .env.example .env
 php artisan key:generate
 php artisan migrate
-php artisan storage:link
+php artisan uploads:prepare
 npm run build
 php artisan serve --host=127.0.0.1 --port=8000
 ```
@@ -79,7 +79,7 @@ The browser check verifies desktop/mobile layouts, creates/publishes/views/delet
 
 1. Use Laravel-compatible hosting with the web root set to `public/`.
 2. Configure HTTPS, `APP_ENV=production`, `APP_DEBUG=false`, the real `APP_URL`, `SESSION_SECURE_COOKIE=true`, production database, and mail settings.
-3. Run `composer install --no-dev --optimize-autoloader`, `npm ci`, `npm run build`, `php artisan migrate --force`, `php artisan storage:link`, and `php artisan optimize`.
+3. Run `composer install --no-dev --optimize-autoloader`, `npm ci`, `npm run build`, `php artisan migrate --force`, `php artisan uploads:prepare`, and `php artisan optimize`.
 4. Create a production administrator with `admin:create`; do not copy the local database or local credentials.
 5. Configure the queue worker, scheduler, access logs, monitoring, and backups.
 6. Publish approved biography, photographs, books, programmes, events, policies, contact details, and external payment/community links.
@@ -88,7 +88,7 @@ The browser check verifies desktop/mobile layouts, creates/publishes/views/delet
 
 ## Backup and restore
 
-Back up the database and `storage/app/public` daily to encrypted, access-controlled off-site storage. Keep environment secrets separately in a secret manager. Suggested retention: 7 daily, 4 weekly, 3 monthly snapshots. Use consistent database snapshots (`mysqldump --single-transaction` for MySQL or SQLite's `.backup` command). Test restoration to a separate database and storage directory monthly, then check login, published content, and uploaded files. Backup jobs and retention must be configured with the chosen hosting provider; this repository does not provision infrastructure.
+Back up the database and `public/storage` daily to encrypted, access-controlled off-site storage. Keep environment secrets separately in a secret manager. Suggested retention: 7 daily, 4 weekly, 3 monthly snapshots. Use consistent database snapshots (`mysqldump --single-transaction` for MySQL or SQLite's `.backup` command). Test restoration to a separate database and storage directory monthly, then check login, published content, and uploaded files. Backup jobs and retention must be configured with the chosen hosting provider; this repository does not provision infrastructure.
 
 ## Assets
 
@@ -132,3 +132,7 @@ The [administrator guide](docs/ADMINISTRATOR_GUIDE.md) explains publishing, even
 ### PHP 8.4 server compatibility
 
 Composer resolves dependencies against PHP **8.4.0** through `config.platform.php`. Deploy both `composer.json` and `composer.lock`, then run `composer install --no-dev --optimize-autoloader` on the server to replace older installed dependency versions. Run `composer check-platform-reqs --no-dev` to verify the actual server runtime/extensions, then `php artisan optimize:clear` and `php artisan optimize`. Do not retain a previous `vendor/` directory when deploying a prebuilt package. The local verification runtime is PHP 8.5; Composer's PHP 8.4.0 compatibility check does not replace runtime verification on the server.
+
+### Uploads without symlinks
+
+Uploads are written directly to the real `public/storage` directory and keep their `/storage/...` URLs. On deployment run `php artisan uploads:prepare` followed by `php artisan config:clear` (or rebuild configuration with `php artisan optimize`). The preparation command copies legacy files from `storage/app/public`, verifies copies, preserves the originals and refuses to overwrite conflicting files. It replaces only a symlink pointing to that legacy directory. Run during a maintenance window when migrating existing uploads. Ensure `public/storage` is writable by PHP and retained across deployments; include it in backups. Do not run `storage:link`.

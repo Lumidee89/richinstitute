@@ -84,3 +84,7 @@ A read-only `app:check-production` command, production environment template, Sup
 ## Operational verification and administrator handover
 
 Database-worker mail rendering, scheduler registration/due publishing and rendered password-reset-link/reuse checks pass in the isolated test environment. The [administrator walkthrough](docs/ADMINISTRATOR_GUIDE.md) is available for training. Real inbox delivery requires a designated test recipient; no live messages were sent during this verification. Training and external operational acceptance remain pending, not implied by the automated checks.
+
+## Direct public uploads
+
+Uploads now use a real `public/storage` directory without symlinks. `uploads:prepare` migrates legacy files without changing saved URLs, retains originals and rejects conflicting destination files. Production checks now require a writable real upload directory. Deployment and backup instructions reflect this storage layout.
