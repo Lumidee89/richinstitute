@@ -73,7 +73,14 @@ class PlatformController extends Controller
         }
         $publicKeys = ['hero_description', 'hero_title', 'contact_email', 'phone', 'whatsapp', 'location', 'instagram', 'facebook', 'linkedin', 'youtube', 'community_url', 'seo_description', 'analytics_id', 'search_console_verification', 'home_eyebrow', 'home_sections', 'home_about_title', 'home_about_body', 'home_about_image', 'home_about_alt', 'home_consultation_title', 'home_consultation_body', 'home_speaking_title', 'home_speaking_body', 'home_journeys_title', 'home_vision_title', 'home_vision_body', 'home_newsletter_title', 'home_newsletter_body', 'home_final_cta'];
         $publicKeys = [...$publicKeys, ...array_keys(config('homepage.copy'))];
-        $settings = Cache::remember('public_site_settings', 60, fn () => DB::table('settings')->whereIn('key', $publicKeys)->pluck('value', 'key'));
+        // Persist plain data: database cache may disallow unserializing Collection objects.
+        $loadSettings = fn () => DB::table('settings')->whereIn('key', $publicKeys)->pluck('value', 'key')->all();
+        $settings = Cache::remember('public_site_settings', 60, $loadSettings);
+        if (! is_array($settings)) {
+            // Repair legacy cached objects without requiring a site-wide cache flush.
+            $settings = $loadSettings();
+            Cache::put('public_site_settings', $settings, 60);
+        }
         $related = $entry ? $entry->related()->visible()->limit(6)->get() : collect();
         if ($entry && $related->isEmpty() && in_array($page, ['articles', 'books'])) {
             $related = Content::visible()->where('id', '!=', $entry->id)->where('type', $entry->type)->whereNotNull('category')->where('category', $entry->category)->limit(3)->get();
