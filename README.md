@@ -4,7 +4,7 @@ Laravel 13 + Inertia 3 + React 19 + TypeScript + Tailwind CSS 4. A public websit
 
 ## Run locally
 
-Requirements: PHP 8.3+, Composer, Node.js 22.12+ (Node 24 recommended), SQLite or MySQL.
+Requirements: PHP 8.4+, Composer, Node.js 22.12+ (Node 24 recommended), SQLite or MySQL.
 
 ```sh
 composer install
@@ -128,3 +128,7 @@ Run `php artisan app:check-production` for a read-only configuration check (deve
 ## Administrator handover and operational checks
 
 The [administrator guide](docs/ADMINISTRATOR_GUIDE.md) explains publishing, events, enquiries, subscribers, settings and training exercises. The isolated operational checks can be run with `php artisan test --filter=OperationalWorkflowTest`. They process serialized notifications through the database queue into an in-memory mail transport, verify scheduler registration/due publishing and exercise a rendered password-reset link. They do not send email or certify a production worker installation.
+
+### PHP 8.4 server compatibility
+
+Composer resolves dependencies against PHP **8.4.0** through `config.platform.php`. Deploy both `composer.json` and `composer.lock`, then run `composer install --no-dev --optimize-autoloader` on the server to replace older installed dependency versions. Run `composer check-platform-reqs --no-dev` to verify the actual server runtime/extensions, then `php artisan optimize:clear` and `php artisan optimize`. Do not retain a previous `vendor/` directory when deploying a prebuilt package. The local verification runtime is PHP 8.5; Composer's PHP 8.4.0 compatibility check does not replace runtime verification on the server.

@@ -4,7 +4,7 @@ This is a prepared handover, not a record of a completed deployment. Select the 
 
 ## Configuration and first deployment
 
-1. Provision a Laravel-compatible PHP 8.3+ host with the extensions required by Composer, GD for optimized images, MySQL, HTTPS and a web root pointing exclusively to `public/`. Restrict write permissions to `storage/` and `bootstrap/cache/` for the application user. Do not make the entire repository writable by the web server.
+1. Provision a Laravel-compatible PHP 8.4+ host with the extensions required by Composer, GD for optimized images, MySQL, HTTPS and a web root pointing exclusively to `public/`. Restrict write permissions to `storage/` and `bootstrap/cache/` for the application user. Do not make the entire repository writable by the web server.
 2. Create production configuration using [the environment template](../deployment/production.env.example). Store the completed `.env` only on the host or in its secret manager, with restricted permissions. Fill in a least-privilege database account and actual SMTP settings. The template uses implicit TLS on port 465; use your provider's prescribed transport settings.
 3. Install dependencies with `composer install --no-dev --optimize-autoloader`. Build assets with `npm ci` and `npm run build` in the build environment. Do not ship `public/hot`, test fixtures, local credential files or a local database.
 4. Generate the application key once with `php artisan key:generate` for a new installation. Preserve that key on subsequent releases and include it in protected recovery materials.
